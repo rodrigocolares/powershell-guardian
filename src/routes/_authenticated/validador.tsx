@@ -37,12 +37,16 @@ const EXAMPLES = [
 function Validator() {
   const [command, setCommand] = useState("");
   const [result, setResult] = useState<AnalysisShape | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [fallback, setFallback] = useState(false);
   const analyzeFn = useServerFn(analyzeCommand);
   const qc = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (cmd: string) => analyzeFn({ data: { command: cmd } }),
     onSuccess: (data) => {
+      setAiError(data.aiError?.message ?? null);
+      setFallback(!!data.fallback);
       setResult({
         status: data.analysis.status,
         risco: data.analysis.risco,
@@ -53,20 +57,28 @@ function Validator() {
         boas_praticas: data.analysis.boas_praticas,
       });
       qc.invalidateQueries({ queryKey: ["analyses"] });
+      if (data.aiError) toast.error(data.aiError.message);
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: () =>
+      toast.error(
+        "Não foi possível analisar o comando no momento. Verifique os créditos, billing ou chave da API de IA.",
+      ),
   });
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!command.trim()) return toast.error("Cole ou digite um comando.");
     setResult(null);
+    setAiError(null);
+    setFallback(false);
     mutation.mutate(command);
   }
 
   function handleClear() {
     setCommand("");
     setResult(null);
+    setAiError(null);
+    setFallback(false);
   }
 
   return (
@@ -132,6 +144,21 @@ function Validator() {
           Esta ferramenta não substitui revisão humana nem testes em ambiente controlado. Comandos críticos devem ser validados em laboratório antes da produção.
         </span>
       </div>
+
+      {aiError && (
+        <div className="rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive flex gap-3">
+          <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <p className="font-medium">Falha ao consultar a IA</p>
+            <p className="text-destructive/90">{aiError}</p>
+            {fallback && (
+              <p className="text-xs text-muted-foreground">
+                Exibindo abaixo uma análise local básica como contingência. Salvo no histórico como "Erro na análise".
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {result && <AnalysisResult analysis={result} />}
     </div>
