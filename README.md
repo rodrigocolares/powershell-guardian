@@ -1,261 +1,254 @@
-# PowerShell Command Validator
+# 🚀 PowerShell Command Validator
 
-## Overview
+> Uma plataforma inteligente para validar, analisar e propor melhorias em comandos PowerShell antes da execução.
 
-**PowerShell Command Validator** is a web application designed to help IT professionals safely review, validate and improve PowerShell commands before execution.
-
-Instead of executing scripts, the application performs an intelligent analysis of the command text, identifies potential risks, suggests improvements based on best practices, and classifies the operational impact.
-
-The goal is to reduce operational errors, improve script quality, and provide an additional security layer before commands are executed in production environments.
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![PowerShell](https://img.shields.io/badge/PowerShell-5.1%20%7C%207-blue)
+![React](https://img.shields.io/badge/React-TypeScript-61DAFB)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E)
 
 ---
 
-## Features
+# 📖 Sobre o projeto
 
-### Command Validation
+O **PowerShell Command Validator** foi desenvolvido para auxiliar administradores de infraestrutura, analistas de suporte, engenheiros de Cloud, profissionais DevOps e SREs na revisão de comandos PowerShell antes de sua execução.
 
-* Analyze complete PowerShell commands
-* Syntax verification
-* Parameter validation
-* Command explanation in plain language
-* Risk assessment
-* Best practice recommendations
+Em ambientes corporativos, um único comando executado incorretamente pode causar indisponibilidade de serviços, perda de dados ou falhas de segurança.
 
-### AI Analysis
+A proposta da aplicação é funcionar como uma **segunda camada de validação**, utilizando Inteligência Artificial e regras de segurança para identificar riscos, sugerir melhorias e explicar o comportamento do comando.
 
-* Intelligent command interpretation
-* Improved command suggestions
-* Security recommendations
-* Performance improvements
-* Readability enhancements
+> **Importante:** A aplicação **NÃO executa comandos PowerShell**. Todo o processamento é realizado apenas sobre o texto informado pelo usuário.
 
-### Risk Detection
+---
 
-Automatically identifies potentially dangerous commands, including:
+# ✨ Funcionalidades
+
+## 🔍 Validação Inteligente
+
+* Validação de comandos PowerShell
+* Verificação de sintaxe
+* Análise de parâmetros
+* Identificação de erros
+* Sugestões automáticas
+* Explicação do funcionamento do comando
+* Reescrita utilizando boas práticas
+
+---
+
+## 🤖 Inteligência Artificial
+
+A IA analisa o comando e retorna:
+
+* Explicação técnica
+* Possíveis problemas
+* Sugestões de melhoria
+* Versão otimizada do comando
+* Classificação de risco
+* Boas práticas recomendadas
+
+---
+
+## ⚠️ Classificação de Risco
+
+Os comandos são classificados automaticamente em:
+
+🟢 Baixo
+
+🟡 Médio
+
+🟠 Alto
+
+🔴 Crítico
+
+---
+
+## 🚨 Detecção de comandos perigosos
+
+Entre eles:
 
 * Remove-Item
 * Format-Volume
 * Stop-Service
-* Invoke-Expression
-* Remove-ADUser
-* Remove-ADComputer
 * Restart-Computer
 * Stop-Computer
 * Clear-Disk
+* Invoke-Expression
+* Remove-ADUser
+* Remove-ADComputer
 * Set-ExecutionPolicy
 
-Dangerous parameters:
+Também identifica parâmetros como:
 
 * -Force
 * -Recurse
 * -Confirm:$false
 
-Credential detection:
+---
 
-* Passwords
-* API Keys
+## 🔐 Proteção de Credenciais
+
+Caso o comando contenha:
+
+* Senhas
 * Tokens
+* API Keys
 * Connection Strings
 * Secrets
 
-Sensitive information is automatically masked before storage.
+A aplicação mascara automaticamente essas informações antes de armazená-las.
 
 ---
 
-## Risk Levels
+# 📚 Histórico de Análises
 
-| Level       | Description                     |
-| ----------- | ------------------------------- |
-| 🟢 Low      | Safe command                    |
-| 🟡 Medium   | Requires attention              |
-| 🟠 High     | Potential operational impact    |
-| 🔴 Critical | Potentially destructive command |
+Cada usuário possui seu próprio histórico contendo:
 
----
+* Comando enviado
+* Data da análise
+* Resultado
+* Nível de risco
+* Sugestões da IA
+* Comando otimizado
 
-## Application Modules
-
-### Authentication
-
-* User registration
-* Login
-* Secure authentication
-* Session management
+O acesso é protegido por **Row Level Security (RLS)**.
 
 ---
 
-### Command Analyzer
+# 👨‍💼 Painel Administrativo
 
-Users can:
+Administradores possuem acesso a:
 
-* Paste PowerShell commands
-* Validate commands
-* Receive AI recommendations
-* Copy optimized commands
-
----
-
-### History
-
-Each authenticated user has access to:
-
-* Analysis history
-* Risk classification
-* Suggested improvements
-* Analysis timestamps
-
-Row Level Security (RLS) ensures users only access their own data.
+* Total de análises
+* Total de usuários
+* Distribuição por nível de risco
+* Últimas análises realizadas
+* Estatísticas da plataforma
 
 ---
 
-### Admin Dashboard
+# 🔒 Segurança
 
-Administrators can view:
+A aplicação foi projetada para ser segura.
 
-* Total analyses
-* Risk distribution
-* Registered users
-* Recent analyses
-* Platform statistics
+## Ela nunca:
 
----
+❌ Executa comandos PowerShell
 
-## Security
+❌ Executa scripts
 
-The application was designed with security as a core principle.
+❌ Conecta em servidores
 
-### The application NEVER:
+❌ Acessa máquinas remotas
 
-* Executes PowerShell commands
-* Executes scripts
-* Connects to remote hosts
-* Runs commands on the server
+❌ Modifica ambientes
 
-All analyses are performed exclusively on the submitted text.
-
-Additional protections include:
-
-* Credential masking
-* Role-based access control
-* Row Level Security (RLS)
-* Secure backend AI integration
-* Protected API keys
-* Controlled error handling
-* AI fallback validation
+Todo o processamento ocorre apenas sobre o texto informado.
 
 ---
 
-## Technology Stack
+# 🛡️ Fallback Inteligente
 
+Caso a IA esteja indisponível (401, 402, 429, 500 ou 503), o sistema continua funcionando.
+
+O analisador local identifica automaticamente:
+
+* comandos destrutivos
+* parâmetros perigosos
+* credenciais expostas
+* riscos conhecidos
+
+Assim, o usuário nunca fica sem resposta.
+
+---
+
+# 🏗️ Arquitetura
+
+```text
 Frontend
-
-* React
-* TypeScript
-* TanStack Start
-* Tailwind CSS
-* Shadcn UI
+│
+├── React
+├── TypeScript
+├── TailwindCSS
+├── Shadcn UI
+└── TanStack Start
 
 Backend
+│
+├── Supabase
+├── PostgreSQL
+├── Edge Functions
+├── RLS
+└── Supabase Auth
 
-* Supabase
-* PostgreSQL
-* Row Level Security (RLS)
-* Edge Functions
-
-Artificial Intelligence
-
-* LLM Integration
-* Structured JSON Responses
-* Local Fallback Analyzer
-
-Authentication
-
-* Supabase Auth
-
----
-
-## AI Response Structure
-
-The AI returns a standardized schema:
-
-```json
-{
-  "status": "Correct | Warning | Error | Dangerous",
-  "risk": "Low | Medium | High | Critical",
-  "explanation": "...",
-  "issues": [],
-  "improvements": [],
-  "improved_command": "...",
-  "best_practices": []
-}
+Inteligência Artificial
+│
+├── LLM
+├── JSON Estruturado
+└── Fallback Local
 ```
 
 ---
 
-## Local Fallback
+# 📂 Estrutura do Projeto
 
-If the AI service is unavailable (401, 402, 429, 500 or 503), the application automatically switches to a local analyzer.
-
-The fallback detects:
-
-* Dangerous cmdlets
-* Dangerous parameters
-* Exposed credentials
-* Common security issues
-
-This guarantees that the application remains fully operational even when the AI service is temporarily unavailable.
-
----
-
-## Project Structure
-
-```
+```text
 src/
- ├── components/
- ├── pages/
- ├── lib/
- ├── hooks/
- ├── services/
- ├── server/
- └── types/
+│
+├── components/
+├── hooks/
+├── lib/
+├── routes/
+├── services/
+├── server/
+└── types/
 
 supabase/
- ├── migrations/
- ├── functions/
- └── policies/
+│
+├── migrations/
+├── functions/
+└── policies/
 ```
 
 ---
 
-## Installation
+# ⚙️ Instalação
 
-Clone the repository
+Clone o projeto
 
 ```bash
-git clone https://github.com/your-user/powershell-command-validator.git
+git clone https://github.com/seu-usuario/powershell-command-validator.git
 ```
 
-Install dependencies
+Entre na pasta
+
+```bash
+cd powershell-command-validator
+```
+
+Instale as dependências
 
 ```bash
 npm install
 ```
 
-Configure environment variables
+Configure as variáveis de ambiente
 
 ```env
 VITE_SUPABASE_URL=
+
 VITE_SUPABASE_ANON_KEY=
+
 OPENAI_API_KEY=
 ```
 
-Start development server
+Execute
 
 ```bash
 npm run dev
 ```
 
-Build production
+Build
 
 ```bash
 npm run build
@@ -263,54 +256,83 @@ npm run build
 
 ---
 
-## Roadmap
+# 🧠 Exemplo de Resposta da IA
 
-* [ ] Script analysis (.ps1)
-* [ ] Multi-file validation
-* [ ] Active Directory expert mode
-* [ ] Exchange expert mode
-* [ ] Azure expert mode
-* [ ] Hyper-V expert mode
-* [ ] VMware expert mode
-* [ ] Kubernetes PowerShell support
-* [ ] Export reports to PDF
-* [ ] Team workspaces
-* [ ] Analysis API
-* [ ] VS Code Extension
-* [ ] PowerShell ISE Plugin
-* [ ] CI/CD integration
-* [ ] GitHub Actions integration
-
----
-
-## Contributing
-
-Contributions are welcome.
-
-Feel free to open Issues, submit Pull Requests, or suggest improvements.
+```json
+{
+  "status": "Correto",
+  "risco": "Baixo",
+  "explicacao": "Obtém a lista de serviços instalados.",
+  "problemas": [],
+  "melhorias": [
+    "Utilizar filtros quando possível."
+  ],
+  "comando_corrigido": "Get-Service | Sort-Object Status",
+  "boas_praticas": [
+    "Evitar processar informações desnecessárias."
+  ]
+}
+```
 
 ---
 
-## Disclaimer
+# 🗺️ Roadmap
 
-This project **does not execute PowerShell commands**.
+## Próximas funcionalidades
 
-The analysis is intended to assist professionals in reviewing commands before execution.
-
-Users remain responsible for validating and testing commands in controlled environments before using them in production.
+* Análise de scripts (.ps1)
+* Upload de arquivos
+* Exportação para PDF
+* Comparação entre versões de scripts
+* Histórico compartilhado por equipes
+* API pública
+* Integração com GitHub
+* Integração com Azure DevOps
+* Integração com Jenkins
+* Integração com GitLab CI
+* Extensão para VS Code
+* Plugin para PowerShell ISE
+* Suporte a Active Directory
+* Suporte a Exchange
+* Suporte a Azure
+* Suporte a VMware
+* Suporte a Hyper-V
+* Suporte a Microsoft 365
 
 ---
 
-## License
+# 🤝 Contribuições
 
-MIT License
+Contribuições são muito bem-vindas.
+
+Caso encontre algum problema ou tenha sugestões:
+
+* Abra uma Issue
+* Envie um Pull Request
+* Compartilhe melhorias
 
 ---
 
-## Author
+# ⚠️ Aviso
+
+Esta ferramenta possui finalidade educativa e de apoio operacional.
+
+Ela **não substitui** validações técnicas realizadas por profissionais qualificados.
+
+Sempre teste comandos em ambientes de homologação antes da execução em produção.
+
+---
+
+# 📄 Licença
+
+Este projeto está licenciado sob a licença **MIT**.
+
+---
+
+# 👨‍💻 Autor
 
 **Rodrigo Otávio Leão Colares**
 
-Infrastructure | Cloud | DevOps | Automation | AI
+Especialista em Infraestrutura • Cloud • DevOps • Automação • Inteligência Artificial
 
-If you found this project useful, consider giving it a ⭐ on GitHub.
+Se este projeto foi útil para você, deixe uma ⭐ no repositório e compartilhe com outros profissionais de TI.
