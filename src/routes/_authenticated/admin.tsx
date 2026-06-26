@@ -1,7 +1,7 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAdminStats, adminDeleteAnalysis, checkIsAdmin } from "@/lib/analyses.functions";
+import { getAdminStats, adminDeleteAnalysis } from "@/lib/analyses.functions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck, Trash2, Users, FileSearch } from "lucide-react";
